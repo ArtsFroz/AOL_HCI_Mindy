@@ -4,6 +4,13 @@
 # Redundant archive
 mindy_web.zip
 
+# Laporan / deliverable tugas (bukan code web — tidak perlu di GitHub)
+TA03-User-Task-Analysis-Mindy.docx
+TA03-usecase-diagram.drawio
+usecase.png
+*.docx
+*.drawio
+
 # OS / editor
 Thumbs.db
 .DS_Store
