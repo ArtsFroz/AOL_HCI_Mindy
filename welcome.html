@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Welcome</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .welcome-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 28px;
+      background: #F7F9FC;
+      min-height: 100dvh;
+    }
+
+    .welcome-logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 28px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      box-shadow: 0 8px 32px rgba(91,143,168,0.15);
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .welcome-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      margin-bottom: 10px;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+
+    .welcome-desc {
+      font-size: 15px;
+      color: var(--text-mid);
+      text-align: center;
+      line-height: 1.7;
+      margin-bottom: 48px;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+
+    .welcome-btns {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
+
+    .welcome-login {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-light);
+      margin-top: 20px;
+      animation: fadeUp 0.6s ease 0.4s both;
+    }
+
+    .welcome-login a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .features-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s ease 0.25s both;
+    }
+
+    .feature-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-mid);
+      box-shadow: var(--shadow-sm);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="welcome-screen">
+      <div class="welcome-logo">
+        <img src="assets/images/pip.png" width="80" height="80" alt="Pip" style="border-radius:50%; object-fit:cover;" />
+      </div>
+      <div class="welcome-title">Mindy</div>
+      <div class="welcome-desc">Your safe space to check in, breathe, and chat with Pip — your penguin companion.</div>
+
+      <div class="features-row">
+        <div class="feature-chip">😊 Mood Tracking</div>
+        <div class="feature-chip">🐧 AI Chat</div>
+        <div class="feature-chip">🌬️ Breathe</div>
+      </div>
+
+      <div class="welcome-btns">
+        <button class="btn btn-primary" onclick="window.location.href='signup.html'">
+          Get Started — It's Free
+        </button>
+        <button class="btn btn-outline" onclick="window.location.href='login.html'">
+          Log In
+        </button>
+      </div>
+
+      <div class="welcome-login">
+        By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Kalau sudah login, langsung ke home
+    const user = Storage.get('mindyUser');
+    if (user) window.location.href = 'home.html';
+  </script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Notifications</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .notif-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #F7F9FC;
+      min-height: 100dvh;
+      overflow-y: auto;
+    }
+
+    .notif-header {
+      background: #fff;
+      padding: 52px 24px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .notif-header h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    /* Section */
+    .notif-section {
+      padding: 20px 24px 0;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* Toggle item */
+    .toggle-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .toggle-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .toggle-info { flex: 1; }
+
+    .toggle-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .toggle-desc {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    /* Toggle switch */
+    .switch {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #E2E8F0;
+      border-radius: 26px;
+      transition: .3s;
+    }
+
+    .slider:before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: .3s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+
+    input:checked + .slider { background: var(--primary); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* Time picker */
+    .time-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .time-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .time-input {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 14px;
+      font-family: var(--font-main);
+      color: var(--primary);
+      font-weight: 600;
+      outline: none;
+      background: var(--primary-light);
+    }
+
+    .time-input:focus { border-color: var(--primary); }
+
+    /* Save button */
+    .save-wrap {
+      padding: 24px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #2D3A4A;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all .3s ease;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="notif-screen">
+
+      <!-- Header -->
+      <div class="notif-header">
+        <button class="btn-icon" onclick="history.back()">‹</button>
+        <h1>Notifications</h1>
+      </div>
+
+      <!-- Push Notifications -->
+      <div class="notif-section">
+        <div class="section-label">Push Notifications</div>
+
+        <div class="toggle-item">
+          <div class="toggle-left">
+            <div class="toggle-info">
+              <div class="toggle-name">Daily Check-In Reminder</div>
+              <div class="toggle-desc">Reminder to log your mood every day</div>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-checkin" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-item">
+          <div class="toggle-left">
+            <div class="toggle-info">
+              <div class="toggle-name">Pip's Morning Greeting</div>
+              <div class="toggle-desc">Start your day with Pip's message</div>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-morning" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-item">
+          <div class="toggle-left">
+            <div class="toggle-info">
+              <div class="toggle-name">Daily Wisdom</div>
+              <div class="toggle-desc">Get a new quote every morning</div>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-wisdom" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-item">
+          <div class="toggle-left">
+            <div class="toggle-info">
+              <div class="toggle-name">Breathe Reminder</div>
+              <div class="toggle-desc">Gentle reminder to take a breath break</div>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-breathe" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Reminder Time -->
+      <div class="notif-section" style="margin-top:8px;">
+        <div class="section-label">Reminder Time</div>
+
+        <div class="time-item">
+          <div class="toggle-left" style="gap:14px;">
+            <div class="time-label">Morning Reminder</div>
+          </div>
+          <input type="time" id="time-morning" class="time-input" value="08:00" />
+        </div>
+
+        <div class="time-item">
+          <div class="toggle-left" style="gap:14px;">
+            <div class="time-label">Evening Check-In</div>
+          </div>
+          <input type="time" id="time-evening" class="time-input" value="20:00" />
+        </div>
+      </div>
+
+      <!-- Do Not Disturb -->
+      <div class="notif-section" style="margin-top:8px;">
+        <div class="section-label">Do Not Disturb</div>
+
+        <div class="toggle-item">
+          <div class="toggle-left">
+            <div class="toggle-info">
+              <div class="toggle-name">Do Not Disturb</div>
+              <div class="toggle-desc">Mute all notifications temporarily</div>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-dnd" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Save -->
+      <div class="save-wrap">
+        <button class="btn btn-primary" onclick="saveNotifSettings()">
+          Save Settings
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="toast">✅ Settings saved!</div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Load saved settings
+    const saved = Storage.get('mindyNotifSettings', {});
+
+    if (saved.checkin  !== undefined) document.getElementById('toggle-checkin').checked  = saved.checkin;
+    if (saved.morning  !== undefined) document.getElementById('toggle-morning').checked  = saved.morning;
+    if (saved.wisdom   !== undefined) document.getElementById('toggle-wisdom').checked   = saved.wisdom;
+    if (saved.breathe  !== undefined) document.getElementById('toggle-breathe').checked  = saved.breathe;
+    if (saved.dnd      !== undefined) document.getElementById('toggle-dnd').checked      = saved.dnd;
+    if (saved.timeMorn) document.getElementById('time-morning').value = saved.timeMorn;
+    if (saved.timeEve)  document.getElementById('time-evening').value = saved.timeEve;
+
+    function saveNotifSettings() {
+      Storage.set('mindyNotifSettings', {
+        checkin:  document.getElementById('toggle-checkin').checked,
+        morning:  document.getElementById('toggle-morning').checked,
+        wisdom:   document.getElementById('toggle-wisdom').checked,
+        breathe:  document.getElementById('toggle-breathe').checked,
+        dnd:      document.getElementById('toggle-dnd').checked,
+        timeMorn: document.getElementById('time-morning').value,
+        timeEve:  document.getElementById('time-evening').value,
+      });
+
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1500);
+    }
+  </script>
+</body>
+</html> 

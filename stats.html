@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Statistics</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .stats-header {
+      padding: 52px 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Empty state */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .empty-icon { font-size: 64px; margin-bottom: 20px; }
+
+    .empty-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      margin-bottom: 10px;
+    }
+
+    .empty-desc {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    /* Chart */
+    .chart-wrap {
+      padding: 0 16px;
+    }
+
+    /* Breakdown */
+    .breakdown-section {
+      padding: 8px 24px 20px;
+    }
+
+    .breakdown-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      margin-bottom: 12px;
+    }
+
+    .breakdown-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .breakdown-tag {
+      border-radius: 20px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .breakdown-tag .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .breakdown-tag .count {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    /* History */
+    .history-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      text-align: center;
+      padding: 0 24px 16px;
+    }
+
+    .history-wrap {
+      padding: 0 24px;
+    }
+
+    .history-entry-time {
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: capitalize;
+      margin-bottom: 3px;
+    }
+
+    .history-entry-note {
+      font-size: 12px;
+      color: var(--text-light);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="screen" id="screen">
+
+      <!-- Header -->
+      <div class="stats-header animate-fadeup">
+        <button class="btn-icon" onclick="history.back()">‹</button>
+        <div class="header-title">
+          <div class="subtitle">Statistic</div>
+          <div class="title">Mood Enhancement</div>
+        </div>
+        <button class="btn-icon" style="font-size:14px;">···</button>
+      </div>
+
+      <!-- Content -->
+      <div id="content"></div>
+
+    </div>
+
+    <nav class="bottom-nav" id="bottom-nav"></nav>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    renderBottomNav('stats.html');
+
+    const EMOTION_COLORS = {
+      senang:   '#F4A4A4',
+      netral:   '#A78BCC',
+      cemas:    '#5BC4C4',
+      sedih:    '#6E8499',
+      marah:    '#E07070',
+      lelah:    '#7E8AA3',
+      kesepian: '#5B8FA8',
+      kecewa:   '#A8836E',
+    };
+
+    const EMOTION_SCORE = {
+      senang: 9, netral: 6, cemas: 5,
+      sedih: 3, marah: 2, lelah: 4,
+      kesepian: 3, kecewa: 4,
+    };
+
+    const moodLog = getMoodLog();
+    const content = document.getElementById('content');
+
+    if (moodLog.length === 0) {
+      content.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📊</div>
+          <div class="empty-title">Belum ada data mood</div>
+          <div class="empty-desc">Mulai ngobrol dengan Pip dulu ya.<br>Statistik mood kamu akan muncul di sini setelah percakapan pertama.</div>
+          <a href="chat.html" class="btn btn-primary" style="display:block; text-align:center; text-decoration:none; max-width:280px; margin:0 auto;">
+            Mulai Chat dengan Pip 🐧
+          </a>
+        </div>
+      `;
+    } else {
+      // Hitung data chart
+      const grouped = {};
+      moodLog.forEach(entry => {
+        if (!grouped[entry.date]) grouped[entry.date] = [];
+        grouped[entry.date].push(EMOTION_SCORE[entry.emotion] || 5);
+      });
+
+      const labels = Object.keys(grouped);
+      const data = labels.map(d =>
+        +(grouped[d].reduce((a,b) => a+b, 0) / grouped[d].length).toFixed(1)
+      );
+
+      // Hitung breakdown
+      const counts = moodLog.reduce((acc, e) => {
+        acc[e.emotion] = (acc[e.emotion] || 0) + 1;
+        return acc;
+      }, {});
+
+      const breakdownHTML = Object.entries(counts).map(([emotion, count]) => `
+        <div class="breakdown-tag" style="background:${EMOTION_COLORS[emotion]}30; border:1.5px solid ${EMOTION_COLORS[emotion]};">
+          <div class="dot" style="background:${EMOTION_COLORS[emotion]};"></div>
+          <span style="text-transform:capitalize;">${emotion}</span>
+          <span class="count">×${count}</span>
+        </div>
+      `).join('');
+
+      // History
+      const historyHTML = [...moodLog].reverse().map(h => `
+        <div class="history-item">
+          <div class="history-entry-time">${h.emotion} · ${h.date} ${h.time}</div>
+          <div class="date">${h.date}</div>
+          <div class="history-entry-note">${h.note || '(no note)'}</div>
+        </div>
+      `).join('');
+
+      content.innerHTML = `
+        <div class="chart-wrap animate-fadeup">
+          <canvas id="moodChart" height="200"></canvas>
+        </div>
+
+        <div class="breakdown-section animate-fadeup" style="animation-delay:.1s;">
+          <div class="breakdown-title">Breakdown Emosi</div>
+          <div class="breakdown-tags">${breakdownHTML}</div>
+        </div>
+
+        <div style="height:1px; background:var(--border); margin:0 24px;"></div>
+
+        <div class="history-title animate-fadeup" style="animation-delay:.2s; padding-top:20px;">History</div>
+        <div class="history-wrap animate-fadeup" style="animation-delay:.2s;">
+          <div class="history-box">${historyHTML}</div>
+        </div>
+      `;
+
+      // Render chart
+      const ctx = document.getElementById('moodChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Mood Score',
+            data,
+            borderColor: '#5B8FA8',
+            backgroundColor: 'rgba(91,143,168,0.1)',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#5B8FA8',
+            pointRadius: 4,
+            tension: 0.4,
+            fill: true,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#fff',
+              titleColor: '#1A1A2E',
+              bodyColor: '#6B7A8D',
+              borderColor: '#EEF0F3',
+              borderWidth: 1,
+              padding: 10,
+              cornerRadius: 12,
+            }
+          },
+          scales: {
+            y: {
+              min: 0, max: 10,
+              grid: { color: '#F0F0F0' },
+              ticks: { color: '#9AA7B5', font: { size: 10 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#9AA7B5', font: { size: 10 } }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

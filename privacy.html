@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Privacy & Security</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .privacy-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #F7F9FC;
+      min-height: 100dvh;
+      overflow-y: auto;
+    }
+
+    .privacy-header {
+      background: #fff;
+      padding: 52px 24px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .privacy-header h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    .priv-section {
+      padding: 20px 24px 0;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .toggle-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .toggle-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .toggle-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .toggle-desc {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    .switch {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #E2E8F0;
+      border-radius: 26px;
+      transition: .3s;
+    }
+
+    .slider:before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: .3s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+
+    input:checked + .slider { background: var(--primary); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* Action items */
+    .action-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .action-item:active { transform: scale(0.99); }
+
+    .action-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .action-arrow {
+      font-size: 18px;
+      color: #C8D4DE;
+    }
+
+    /* Danger zone */
+    .danger-item {
+      background: var(--danger-light);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      border: 1px solid #FADADD;
+      cursor: pointer;
+    }
+
+    .danger-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--danger);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 300;
+      pointer-events: none;
+      transition: background .3s ease;
+    }
+
+    .modal-overlay.show {
+      background: rgba(0,0,0,0.4);
+      pointer-events: all;
+    }
+
+    .modal-sheet {
+      background: var(--white);
+      border-radius: 24px 24px 0 0;
+      padding: 24px 24px 40px;
+      width: 100%;
+      max-width: 430px;
+      transform: translateY(100%);
+      transition: transform .35s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    .modal-overlay.show .modal-sheet { transform: translateY(0); }
+
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      background: #E2E8F0;
+      border-radius: 2px;
+      margin: 0 auto 16px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 14px;
+      background: #F0F4F8;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-mid);
+      font-family: var(--font-head);
+      cursor: pointer;
+    }
+
+    .btn-danger-confirm {
+      flex: 1;
+      padding: 14px;
+      background: var(--danger);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      font-family: var(--font-head);
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #2D3A4A;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all .3s ease;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="privacy-screen">
+
+      <!-- Header -->
+      <div class="privacy-header">
+        <button class="btn-icon" onclick="history.back()">‹</button>
+        <h1>Privacy & Security</h1>
+      </div>
+
+      <!-- Privacy -->
+      <div class="priv-section">
+        <div class="section-label">Privacy</div>
+
+        <div class="toggle-item">
+          <div class="toggle-left">
+            <div>
+              <div class="toggle-name">Save Chat History</div>
+              <div class="toggle-desc">Keep your conversations with Pip</div>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggle-history" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="priv-section" style="margin-top:8px;">
+        <div class="section-label">Security</div>
+
+        <div class="action-item" onclick="showChangePassword()">
+          <div class="toggle-left">
+            <div class="action-name">Change Password</div>
+          </div>
+          <div class="action-arrow">›</div>
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div class="priv-section" style="margin-top:8px;">
+        <div class="section-label">Your Data</div>
+
+        <div class="action-item" onclick="exportData()">
+          <div class="toggle-left">
+            <div class="action-name">Export My Data</div>
+          </div>
+          <div class="action-arrow">›</div>
+        </div>
+
+        <div class="danger-item" onclick="showDeleteModal()">
+          <div class="toggle-left">
+            <div class="danger-name">Delete All Data</div>
+          </div>
+          <div class="action-arrow" style="color:var(--danger);">›</div>
+        </div>
+      </div>
+
+      <!-- Save -->
+      <div style="padding:24px;">
+        <button class="btn btn-primary" onclick="savePrivacy()">Save Settings</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal-overlay" id="delete-modal" onclick="closeModal(event)">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Delete All Data?</div>
+      <div class="modal-desc">
+        Semua data mood, riwayat chat dengan Pip, dan pengaturan kamu akan dihapus permanen.
+        Tindakan ini tidak bisa dibatalkan.
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeDeleteModal()">Batal</button>
+        <button class="btn-danger-confirm" onclick="deleteAllData()">Hapus Semua</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal-overlay" id="pw-modal" onclick="closeModal(event)">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Change Password</div>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+        <input type="password" id="pw-current" placeholder="Current password"
+          style="border:1.5px solid var(--border);border-radius:var(--radius-md);padding:12px 16px;font-size:14px;font-family:var(--font-main);outline:none;" />
+        <input type="password" id="pw-new" placeholder="New password"
+          style="border:1.5px solid var(--border);border-radius:var(--radius-md);padding:12px 16px;font-size:14px;font-family:var(--font-main);outline:none;" />
+        <input type="password" id="pw-confirm" placeholder="Confirm new password"
+          style="border:1.5px solid var(--border);border-radius:var(--radius-md);padding:12px 16px;font-size:14px;font-family:var(--font-main);outline:none;" />
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closePwModal()">Batal</button>
+        <button class="btn-danger-confirm" style="background:var(--primary);" onclick="changePassword()">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Load saved settings
+    const saved = Storage.get('mindyPrivacy', {});
+    if (saved.history   !== undefined) document.getElementById('toggle-history').checked   = saved.history;
+    
+    function savePrivacy() {
+      Storage.set('mindyPrivacy', {
+        history:   document.getElementById('toggle-history').checked,
+      });
+      showToast('✅ Settings saved!');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1500);
+    }
+
+    function closeModal(e) {
+      if (e.target.classList.contains('modal-overlay')) {
+        document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
+      }
+    }
+
+    // Delete modal
+    function showDeleteModal() {
+      document.getElementById('delete-modal').classList.add('show');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('delete-modal').classList.remove('show');
+    }
+
+    function deleteAllData() {
+      localStorage.clear();
+      showToast('🗑️ All data deleted');
+      setTimeout(() => window.location.href = 'welcome.html', 1500);
+    }
+
+    // Export data
+    function exportData() {
+      const data = {
+        profile:  Storage.get('mindyProfile'),
+        moodLog:  Storage.get('mindyMoodLog'),
+        messages: Storage.get('mindyMessages'),
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'mindy-data.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📤 Data exported!');
+    }
+
+    // Change password modal
+    function showChangePassword() {
+      document.getElementById('pw-modal').classList.add('show');
+    }
+
+    function closePwModal() {
+      document.getElementById('pw-modal').classList.remove('show');
+    }
+
+    function changePassword() {
+      const current = document.getElementById('pw-current').value;
+      const newPw   = document.getElementById('pw-new').value;
+      const confirm = document.getElementById('pw-confirm').value;
+
+      if (!current || !newPw || !confirm) { showToast('⚠️ Semua field harus diisi'); return; }
+      if (newPw.length < 6) { showToast('⚠️ Password minimal 6 karakter'); return; }
+      if (newPw !== confirm) { showToast('⚠️ Password tidak cocok'); return; }
+
+      closePwModal();
+      showToast('✅ Password berhasil diubah!');
+    }
+  </script>
+</body>
+</html>

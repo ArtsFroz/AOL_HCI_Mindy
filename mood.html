@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Mood Check-In</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .mood-header {
+      padding: 52px 24px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mood-header-info .subtitle {
+      font-size: 11px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mood-header-info .title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    .pip-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    .pip-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+    }
+
+    .mood-question {
+      padding: 16px 24px 0;
+      text-align: center;
+    }
+
+    .mood-question h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      margin-bottom: 6px;
+    }
+
+    .mood-question p {
+      font-size: 13px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* Mood Grid */
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 20px 24px 0;
+    }
+
+    .mood-option {
+      background: #F7F9FC;
+      border: 2px solid transparent;
+      border-radius: 16px;
+      padding: 14px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .mood-option.selected {
+      border-color: var(--primary);
+    }
+
+    .mood-option span.emoji { font-size: 30px; }
+    .mood-option span.label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* Tags */
+    .tags-section {
+      padding: 24px 24px 0;
+    }
+
+    .tags-section h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      margin-bottom: 12px;
+    }
+
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text-mid);
+      border-radius: 20px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: var(--font-main);
+    }
+
+    .tag.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Note */
+    .note-section {
+      padding: 20px 24px 0;
+    }
+
+    .note-section label {
+      font-size: 13px;
+      color: var(--text-light);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .note-section textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: var(--font-main);
+      resize: none;
+      outline: none;
+      color: var(--text-dark);
+      box-sizing: border-box;
+    }
+
+    .note-section textarea:focus {
+      border-color: var(--primary);
+    }
+
+    /* Save button */
+    .save-section {
+      padding: 20px 24px 0;
+    }
+
+    .btn-save {
+      width: 100%;
+      padding: 15px;
+      background: #E2E8F0;
+      color: var(--text-light);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-head);
+      cursor: not-allowed;
+      transition: all .2s;
+    }
+
+    .btn-save.ready {
+      background: var(--primary);
+      color: var(--white);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="screen">
+
+      <!-- Header -->
+      <div class="mood-header animate-fadeup">
+        <button class="btn-icon" onclick="history.back()">‹</button>
+        <div class="mood-header-info">
+          <div class="subtitle">Daily Mindset</div>
+          <div class="title" id="today-date"></div>
+        </div>
+      </div>
+
+      <!-- Pip -->
+      <div class="pip-wrap animate-fadeup" style="animation-delay:.1s;">
+        <div class="pip-icon">🐧</div>
+      </div>
+
+      <!-- Question -->
+      <div class="mood-question animate-fadeup" style="animation-delay:.15s;">
+        <h2>How are you feeling today?</h2>
+        <p>Check in with yourself. Every emotion is a message from your mind.</p>
+      </div>
+
+      <!-- Mood Options -->
+      <div class="mood-grid animate-fadeup" style="animation-delay:.2s;" id="mood-grid">
+        <div class="mood-option" data-mood="senang" data-bg="#FFF3CD" onclick="selectMood(this)">
+          <span class="emoji">😄</span>
+          <span class="label">Happy</span>
+        </div>
+        <div class="mood-option" data-mood="senang" data-bg="#D4EDDA" onclick="selectMood(this)">
+          <span class="emoji">😊</span>
+          <span class="label">Good</span>
+        </div>
+        <div class="mood-option" data-mood="netral" data-bg="#E2E8F0" onclick="selectMood(this)">
+          <span class="emoji">😐</span>
+          <span class="label">Neutral</span>
+        </div>
+        <div class="mood-option" data-mood="sedih" data-bg="#CCE5FF" onclick="selectMood(this)">
+          <span class="emoji">😔</span>
+          <span class="label">Down</span>
+        </div>
+        <div class="mood-option" data-mood="sedih" data-bg="#D1ECF1" onclick="selectMood(this)">
+          <span class="emoji">😢</span>
+          <span class="label">Sad</span>
+        </div>
+        <div class="mood-option" data-mood="marah" data-bg="#F8D7DA" onclick="selectMood(this)">
+          <span class="emoji">😤</span>
+          <span class="label">Angry</span>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="tags-section animate-fadeup" style="animation-delay:.25s;">
+        <h3>What's making you feel this way?</h3>
+        <div class="tags-wrap">
+          <div class="tag" onclick="toggleTag(this)">Work</div>
+          <div class="tag" onclick="toggleTag(this)">Family</div>
+          <div class="tag" onclick="toggleTag(this)">Health</div>
+          <div class="tag" onclick="toggleTag(this)">Relationships</div>
+          <div class="tag" onclick="toggleTag(this)">Weather</div>
+          <div class="tag" onclick="toggleTag(this)">Hobbies</div>
+          <div class="tag" onclick="toggleTag(this)">Finance</div>
+          <div class="tag" onclick="toggleTag(this)">School</div>
+        </div>
+      </div>
+
+      <!-- Note -->
+      <div class="note-section animate-fadeup" style="animation-delay:.3s;">
+        <label>Optional Note</label>
+        <textarea id="mood-note" rows="3" placeholder="Write a few words about your day..."></textarea>
+      </div>
+
+      <!-- Save -->
+      <div class="save-section animate-fadeup" style="animation-delay:.35s;">
+        <button class="btn-save" id="save-btn" onclick="saveMood()">Save Check-In</button>
+      </div>
+
+    </div>
+
+    <nav class="bottom-nav" id="bottom-nav"></nav>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    renderBottomNav('home.html');
+
+    // Set tanggal hari ini
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const now = new Date();
+    document.getElementById('today-date').textContent =
+      `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+
+    let selectedMood = null;
+
+    function selectMood(el) {
+      document.querySelectorAll('.mood-option').forEach(o => {
+        o.classList.remove('selected');
+        o.style.background = '#F7F9FC';
+      });
+      el.classList.add('selected');
+      el.style.background = el.dataset.bg;
+      selectedMood = el.dataset.mood;
+
+      const btn = document.getElementById('save-btn');
+      btn.classList.add('ready');
+      btn.style.cursor = 'pointer';
+    }
+
+    function toggleTag(el) {
+      el.classList.toggle('selected');
+    }
+
+    function saveMood() {
+      if (!selectedMood) return;
+      const note = document.getElementById('mood-note').value;
+      addMoodLog(selectedMood, note);
+      window.location.href = 'home.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Local config
+.claude/
+
+# Redundant archive
+mindy_web.zip
+
+# OS / editor
+Thumbs.db
+.DS_Store
+
+# Dependencies (not used at runtime — static site)
+node_modules/

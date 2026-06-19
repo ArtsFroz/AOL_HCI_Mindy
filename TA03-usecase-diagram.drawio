@@ -1,0 +1,106 @@
+<mxfile host="app.diagrams.net" agent="Mindy TA03" version="24.0.0">
+  <diagram id="mindy-usecase" name="Mindy - Use Case Diagram">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Use Case Diagram - Mindy (Because Your Mind Matters)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#2D3A4A;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="560" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- System Boundary -->
+        <mxCell id="boundary" value="SISTEM: MINDY" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#5B8FA8;strokeColor=#5B8FA8;fillColor=#F7F9FC;align=center;" vertex="1" parent="1">
+          <mxGeometry x="340" y="70" width="440" height="1260" as="geometry" />
+        </mxCell>
+
+        <!-- Actors -->
+        <mxCell id="primary" value="Primary User&#10;(Maya, Daniel, Sarah, Bayu)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="300" width="60" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="secondary" value="Secondary User&#10;(Nadia)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="830" width="60" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" value="Admin User&#10;(Content &amp; System Maintainer)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1080" width="60" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="pip" value="Pip / Gemini AI&#10;(Aktor Sistem)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="950" y="360" width="60" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Use Cases -->
+        <mxCell id="uc1" value="UC1: Register / Login" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFF5;strokeColor=#5B8FA8;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="100" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2" value="UC2: Mood Check-In" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFF5;strokeColor=#5B8FA8;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="185" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc3" value="UC3: Chat dengan Pip" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFF5;strokeColor=#5B8FA8;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="290" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc3a" value="UC3a: Deteksi Emosi &amp; Krisis" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FDF3C0;strokeColor=#E8975B;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="500" y="385" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc4" value="UC4: Breathe / Latihan Napas" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E2EFEE;strokeColor=#4F9D92;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="480" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc5" value="UC5: Tampilkan Hotline Krisis" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F8D7DA;strokeColor=#C25B5B;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="500" y="565" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc6" value="UC6: Lihat MindMap / Statistik" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFF5;strokeColor=#5B8FA8;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="660" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc7" value="UC7: Kelola Profil &amp; Privasi" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFF5;strokeColor=#5B8FA8;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="745" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc8" value="UC8: Lihat Daily Boost" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0EEFF;strokeColor=#8A78A6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="830" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc9" value="UC9: Baca &amp; Filter Wisdom of the Day" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0EEFF;strokeColor=#8A78A6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="915" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc10" value="UC10: Simpan / Koleksi Kutipan" style="ellipse;whiteSpace=wrap;html=1;fillColor=#F0EEFF;strokeColor=#8A78A6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1000" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc11" value="UC11: Kelola Konten (Boost/Wisdom)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EEF0F4;strokeColor=#7E8AA3;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1085" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc12" value="UC12: Kelola Prompt &amp; Protokol Krisis Pip" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EEF0F4;strokeColor=#7E8AA3;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1170" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uc13" value="UC13: Kelola Keamanan &amp; Permintaan Data" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EEF0F4;strokeColor=#7E8AA3;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1255" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Primary User associations -->
+        <mxCell id="e1" style="endArrow=none;html=1;strokeColor=#5B8FA8;" edge="1" parent="1" source="primary" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="endArrow=none;html=1;strokeColor=#5B8FA8;" edge="1" parent="1" source="primary" target="uc2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="endArrow=none;html=1;strokeColor=#5B8FA8;" edge="1" parent="1" source="primary" target="uc3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="endArrow=none;html=1;strokeColor=#5B8FA8;" edge="1" parent="1" source="primary" target="uc4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="endArrow=none;html=1;strokeColor=#5B8FA8;" edge="1" parent="1" source="primary" target="uc6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="endArrow=none;html=1;strokeColor=#5B8FA8;" edge="1" parent="1" source="primary" target="uc7"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Secondary User associations -->
+        <mxCell id="e8" style="endArrow=none;html=1;strokeColor=#8A78A6;" edge="1" parent="1" source="secondary" target="uc8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" style="endArrow=none;html=1;strokeColor=#8A78A6;" edge="1" parent="1" source="secondary" target="uc9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e10" style="endArrow=none;html=1;strokeColor=#8A78A6;" edge="1" parent="1" source="secondary" target="uc10"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Admin User associations -->
+        <mxCell id="e11" style="endArrow=none;html=1;strokeColor=#7E8AA3;" edge="1" parent="1" source="admin" target="uc11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e12" style="endArrow=none;html=1;strokeColor=#7E8AA3;" edge="1" parent="1" source="admin" target="uc12"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e13" style="endArrow=none;html=1;strokeColor=#7E8AA3;" edge="1" parent="1" source="admin" target="uc13"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Pip / Gemini associations -->
+        <mxCell id="ep1" style="endArrow=none;html=1;strokeColor=#E8975B;" edge="1" parent="1" source="pip" target="uc3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ep2" style="endArrow=none;html=1;strokeColor=#E8975B;" edge="1" parent="1" source="pip" target="uc3a"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- include / extend relations -->
+        <mxCell id="rinc" value="&lt;&lt;include&gt;&gt;" style="endArrow=open;dashed=1;html=1;fontSize=10;fontStyle=2;strokeColor=#2D3A4A;" edge="1" parent="1" source="uc3" target="uc3a"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="rext1" value="&lt;&lt;extend&gt;&gt;" style="endArrow=open;dashed=1;html=1;fontSize=10;fontStyle=2;strokeColor=#2D3A4A;" edge="1" parent="1" source="uc4" target="uc3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="rext2" value="&lt;&lt;extend&gt;&gt;" style="endArrow=open;dashed=1;html=1;fontSize=10;fontStyle=2;strokeColor=#2D3A4A;" edge="1" parent="1" source="uc5" target="uc3a"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

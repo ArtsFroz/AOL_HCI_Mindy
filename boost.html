@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Daily Boost</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .boost-header {
+      padding: 52px 24px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .boost-header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    .category-badge {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .badge {
+      background: var(--primary-light);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+
+    .quote-card {
+      margin: 12px 24px 0;
+      background: #FAFBFC;
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(91,143,168,0.08);
+      border: 1px solid var(--border);
+    }
+
+    .quote-mark {
+      font-size: 40px;
+      color: var(--primary);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+      line-height: 0.5;
+      margin-bottom: 16px;
+    }
+
+    .quote-text {
+      font-size: 18px;
+      color: var(--text-dark);
+      line-height: 1.7;
+      font-family: Georgia, serif;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .quote-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--primary);
+      margin: 0 auto 16px;
+      opacity: 0.4;
+    }
+
+    .quote-sub {
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Action buttons */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 20px 24px 0;
+    }
+
+    .btn-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .2s;
+    }
+
+    .btn-circle.liked {
+      background: #FFF0F0;
+      border-color: #FADADD;
+    }
+
+    .btn-new {
+      flex: 1;
+      padding: 14px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: var(--font-head);
+      cursor: pointer;
+    }
+
+    .tip {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-light);
+      padding: 12px 24px 0;
+    }
+
+    /* Collections */
+    .collections-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 14px;
+    }
+
+    .collections-header span {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    .collections-header a {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .collections-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 0 24px 16px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    }
+
+    .collections-scroll::-webkit-scrollbar { display: none; }
+
+    .collection-item {
+    min-width: 100px;
+    border-radius: 16px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform .15s;
+    user-select: none;
+    }
+
+    .collection-item:active { transform: scale(0.95); }
+
+    .collections-scroll::-webkit-scrollbar { display: none; }
+
+    .collection-item {
+      background: #EEF0FF;
+      border-radius: 16px;
+      padding: 16px 14px;
+      min-width: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .collection-item span.icon { font-size: 28px; }
+    .collection-item span.name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+      text-align: center;
+    }
+
+    /* Modal Collection */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 300;
+        pointer-events: none;
+        transition: background .3s ease;
+    }
+
+    .modal-overlay.show {
+        background: rgba(0,0,0,0.4);
+        pointer-events: all;
+    }
+
+    .modal-sheet {
+        background: var(--white);
+        border-radius: 24px 24px 0 0;
+        padding: 24px 24px 40px;
+        width: 100%;
+        max-width: 430px;
+        max-height: 80dvh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform .35s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    .modal-overlay.show .modal-sheet {
+        transform: translateY(0);
+    }
+
+    .modal-handle {
+    width: 40px;
+    height: 4px;
+    background: #E2E8F0;
+    border-radius: 2px;
+    margin: 0 auto 16px;
+    }
+
+    .modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    font-family: var(--font-head);
+    margin-bottom: 4px;
+    }
+
+    .modal-subtitle {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    }
+
+    .collection-quote {
+    background: #F7F9FC;
+    border-radius: 16px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    }
+
+    .collection-quote .q-text {
+    font-size: 15px;
+    color: var(--text-dark);
+    line-height: 1.6;
+    font-family: Georgia, serif;
+    font-style: italic;
+    margin-bottom: 8px;
+    }
+
+    .collection-quote .q-author {
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="screen">
+
+      <!-- Header -->
+      <div class="boost-header animate-fadeup">
+        <button class="btn-icon" onclick="history.back()">‹</button>
+        <h1>Daily Affirmation</h1>
+      </div>
+
+      <!-- Badge -->
+      <div class="category-badge animate-fadeup" style="animation-delay:.1s;">
+        <div class="badge" id="category-badge">NEW BEGINNINGS</div>
+      </div>
+
+      <!-- Quote Card -->
+      <div class="quote-card animate-fadein" id="quote-card" style="animation-delay:.1s;">
+        <div class="quote-mark">"</div>
+        <div class="quote-text" id="quote-text">Every day is a new beginning. Take a deep breath and start again.</div>
+        <div class="quote-divider"></div>
+        <div class="quote-sub">breathe in, breathe out</div>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-row animate-fadeup" style="animation-delay:.2s;">
+        <button class="btn-circle" id="like-btn" onclick="toggleLike()">🤍</button>
+        <button class="btn-new" onclick="nextQuote()">🔄 New Quote</button>
+        <button class="btn-circle">🔗</button>
+      </div>
+
+      <!-- Tip -->
+      <div class="tip animate-fadeup" style="animation-delay:.25s;">
+        💡 Tip: Save to your favorites for offline access
+      </div>
+
+      <!-- Collections -->
+      <div class="collections-header animate-fadeup" style="animation-delay:.3s;">
+        <span>Your Collections</span>
+        <a href="wisdom.html" style="font-size:13px; color:var(--primary); font-weight:600; text-decoration:none; border:1px solid var(--primary); padding:5px 14px; border-radius:20px;">Explore</a>
+      </div>
+      <div class="collections-scroll animate-fadeup" style="animation-delay:.3s;">
+        <div class="collection-item" style="background:#EEF0FF;" onclick="openCollection('Night Calm')">
+            <span class="icon">🌙</span>
+            <span class="name">Night Calm</span>
+        </div>
+        <div class="collection-item" style="background:#FFFBEA;" onclick="openCollection('Morning Energy')">
+            <span class="icon">☀️</span>
+            <span class="name">Morning Energy</span>
+        </div>
+        <div class="collection-item" style="background:#FFF0F0;" onclick="openCollection('Confidence')">
+            <span class="icon">⚡</span>
+            <span class="name">Confidence</span>
+        </div>
+        <div class="collection-item" style="background:#F0FFF4;" onclick="openCollection('Mindfulness')">
+            <span class="icon">🌿</span>
+            <span class="name">Mindfulness</span>
+        </div>
+      </div>
+
+    </div>
+
+    <nav class="bottom-nav" id="bottom-nav"></nav>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+
+    renderBottomNav('boost.html');
+
+    const QUOTES = [
+      { text: "Every day is a new beginning. Take a deep breath and start again.", category: "NEW BEGINNINGS" },
+      { text: "You don't have to be perfect to be worthy of love and belonging.", category: "SELF LOVE" },
+      { text: "Small steps every day lead to big changes over time.", category: "GROWTH" },
+      { text: "It's okay to not be okay. What matters is that you keep going.", category: "RESILIENCE" },
+      { text: "Your feelings are valid. You are allowed to take up space.", category: "VALIDATION" },
+      { text: "Rest is not giving up. Rest is getting ready for what's next.", category: "SELF CARE" },
+    ];
+
+    let idx = 0;
+    let liked = false;
+
+    function nextQuote() {
+      idx = (idx + 1) % QUOTES.length;
+      liked = false;
+      document.getElementById('like-btn').textContent = '🤍';
+      document.getElementById('like-btn').classList.remove('liked');
+      document.getElementById('quote-text').textContent = QUOTES[idx].text;
+      document.getElementById('category-badge').textContent = QUOTES[idx].category;
+    }
+
+    function toggleLike() {
+      liked = !liked;
+      const btn = document.getElementById('like-btn');
+      btn.textContent = liked ? '❤️' : '🤍';
+      btn.classList.toggle('liked', liked);
+    }
+
+    const COLLECTIONS_DATA = {
+        "Night Calm": {
+            icon: "🌙",
+            subtitle: "Quotes untuk menenangkan pikiran di malam hari",
+            bg: "#EEF0FF",
+            quotes: [
+            { text: "Rest is not giving up. Rest is getting ready for what's next.", author: "Anonymous" },
+            { text: "Sleep is the best meditation.", author: "Dalai Lama" },
+            { text: "The night is the hardest time to be alive. But it's only 4 hours.", author: "Poppy Z. Brite" },
+            { text: "Let the soft animal of your body love what it loves.", author: "Mary Oliver" },
+            { text: "Tonight, be gentle with yourself.", author: "Anonymous" },
+            ]
+        },
+        "Morning Energy": {
+            icon: "☀️",
+            subtitle: "Mulai hari dengan semangat dan energi positif",
+            bg: "#FFFBEA",
+            quotes: [
+            { text: "Every morning we are born again. What we do today matters most.", author: "Buddha" },
+            { text: "Today is a new beginning. Take a deep breath and start again.", author: "Anonymous" },
+            { text: "The sun is new each day.", author: "Heraclitus" },
+            { text: "With the new day comes new strength and new thoughts.", author: "Eleanor Roosevelt" },
+            { text: "Morning is an important time of day — how you spend your morning can often tell you what kind of day you are going to have.", author: "Lemony Snicket" },
+            ]
+        },
+        "Confidence": {
+            icon: "⚡",
+            subtitle: "Percaya diri dan kenali kekuatanmu",
+            bg: "#FFF0F0",
+            quotes: [
+            { text: "You yourself, as much as anybody in the entire universe, deserve your love and affection.", author: "Buddha" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "You are enough, just as you are.", author: "Meghan Markle" },
+            { text: "No one can make you feel inferior without your consent.", author: "Eleanor Roosevelt" },
+            { text: "You have been criticizing yourself for years and it hasn't worked. Try approving of yourself.", author: "Louise Hay" },
+            ]
+        },
+        "Mindfulness": {
+            icon: "🌿",
+            subtitle: "Hadir sepenuhnya di momen ini",
+            bg: "#F0FFF4",
+            quotes: [
+            { text: "The present moment is the only moment available to us.", author: "Thich Nhat Hanh" },
+            { text: "Peace comes from within. Do not seek it without.", author: "Buddha" },
+            { text: "Wherever you are, be there totally.", author: "Eckhart Tolle" },
+            { text: "In today's rush we all think too much, seek too much, want too much and forget about the joy of just being.", author: "Eckhart Tolle" },
+            { text: "Mindfulness is a way of befriending ourselves and our experience.", author: "Jon Kabat-Zinn" },
+            ]
+        }
+    };
+
+    function openCollection(name) {
+    const data = COLLECTIONS_DATA[name];
+        if (!data) return;
+
+        document.getElementById('modal-title').textContent = data.icon + ' ' + name;
+        document.getElementById('modal-subtitle').textContent = data.subtitle;
+        document.getElementById('modal-quotes').innerHTML = data.quotes.map(q => `
+            <div class="collection-quote" style="background:${data.bg};">
+            <div class="q-text">"${q.text}"</div>
+            <div class="q-author">— ${q.author}</div>
+            </div>
+        `).join('');
+
+        document.getElementById('collection-modal').classList.add('show');
+    }
+
+    function closeCollection(e) {
+        if (e.target === document.getElementById('collection-modal')) {
+            document.getElementById('collection-modal').classList.remove('show');
+        }
+    }
+  </script>
+  <script>
+  // Drag scroll untuk collections
+  const scroll = document.querySelector('.collections-scroll');
+  let isDown = false, startX, scrollLeft;
+
+  scroll.addEventListener('mousedown', (e) => {
+    isDown = true;
+    scroll.style.cursor = 'grabbing';
+    startX = e.pageX - scroll.offsetLeft;
+    scrollLeft = scroll.scrollLeft;
+  });
+
+  scroll.addEventListener('mouseleave', () => { isDown = false; scroll.style.cursor = 'grab'; });
+  scroll.addEventListener('mouseup',    () => { isDown = false; scroll.style.cursor = 'grab'; });
+  scroll.addEventListener('mousemove',  (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - scroll.offsetLeft;
+    scroll.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+</script>
+<!-- Collection Modal -->
+<div class="modal-overlay" id="collection-modal" onclick="closeCollection(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-subtitle" id="modal-subtitle"></div>
+    <div id="modal-quotes"></div>
+  </div>
+</div>
+</body>
+</html>

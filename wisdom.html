@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Wisdom of the Day</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .wisdom-header {
+      padding: 52px 24px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wisdom-header-info h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    .wisdom-header-info p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    /* Featured */
+    .featured-wrap {
+      padding: 16px 24px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .featured-card {
+      background: linear-gradient(135deg, #5B8FA8 0%, #4a7a93 100%);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .featured-icon { font-size: 32px; margin-bottom: 10px; }
+
+    .featured-quote {
+      font-size: 16px;
+      color: #fff;
+      font-style: italic;
+      line-height: 1.7;
+      font-family: Georgia, serif;
+      margin-bottom: 12px;
+    }
+
+    .featured-author {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 600;
+    }
+
+    /* Filter */
+    .filter-wrap {
+    padding: 16px 0 8px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    }
+
+    .filter-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 24px 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-scroll::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+    border: none;
+    border-radius: 20px;
+    padding: 7px 16px;
+    background: #F0F4F8;
+    color: var(--text-mid);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-main);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all .2s;
+    }
+
+    .filter-btn.active {
+    background: var(--primary);
+    color: var(--white);
+    }
+
+    .filter-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 24px 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-scroll::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+    border: none;
+    border-radius: 20px;
+    padding: 7px 16px;
+    background: #F0F4F8;
+    color: var(--text-mid);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-main);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all .2s;
+    }
+
+    .filter-btn.active {
+    background: var(--primary);
+    color: var(--white);
+    }
+
+    /* Quote list */
+    .quotes-list {
+      padding: 12px 24px 0;
+    }
+
+    .quote-item {
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .quote-item .cat-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .quote-item .q-text {
+      font-size: 15px;
+      color: var(--text-dark);
+      line-height: 1.6;
+      font-family: Georgia, serif;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .quote-item .q-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .quote-item .q-author {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .quote-item .q-actions {
+      display: flex;
+      gap: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="screen" style="padding-bottom:80px; background:#F7F9FC;">
+
+      <!-- Header -->
+      <div class="wisdom-header animate-fadeup">
+        <button class="btn-icon" onclick="history.back()">‹</button>
+        <div class="wisdom-header-info">
+          <h1>Wisdom of the Day</h1>
+          <p>Words that heal & inspire</p>
+        </div>
+      </div>
+
+      <!-- Featured -->
+      <div class="featured-wrap animate-fadeup" style="animation-delay:.1s;">
+        <div class="featured-card">
+          <div class="featured-icon">✨</div>
+          <div class="featured-quote">"The present moment is the only moment available to us, and it is the door to all moments."</div>
+          <div class="featured-author">— Thich Nhat Hanh</div>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-wrap animate-fadeup" style="animation-delay:.15s;">
+        <div class="filter-scroll" id="filter-scroll"></div>
+      </div>
+
+      <!-- Quote List -->
+      <div class="quotes-list animate-fadeup" style="animation-delay:.2s;" id="quotes-list"></div>
+
+    </div>
+
+    <nav class="bottom-nav" id="bottom-nav"></nav>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    renderBottomNav('boost.html');
+
+    const WISDOMS = [
+      { quote: "The present moment is the only moment available to us.", author: "Thich Nhat Hanh", category: "Mindfulness", bg: "#EEF4F8" },
+      { quote: "You yourself deserve your love and affection as much as anybody.", author: "Buddha", category: "Self Love", bg: "#FFF0F5" },
+      { quote: "In the middle of difficulty lies opportunity.", author: "Albert Einstein", category: "Resilience", bg: "#FFF8E6" },
+      { quote: "Happiness comes from your own actions.", author: "Dalai Lama", category: "Happiness", bg: "#F0FFF4" },
+      { quote: "The only way out is through.", author: "Robert Frost", category: "Courage", bg: "#F0F0FF" },
+      { quote: "What we think, we become.", author: "Buddha", category: "Mindset", bg: "#FFF0F0" },
+      { quote: "Peace comes from within. Do not seek it without.", author: "Buddha", category: "Mindfulness", bg: "#EEF4F8" },
+      { quote: "You are enough, just as you are.", author: "Meghan Markle", category: "Self Love", bg: "#FFF0F5" },
+    ];
+
+    const categories = ['All', ...new Set(WISDOMS.map(w => w.category))];
+    let activeCategory = 'All';
+
+    function renderFilters() {
+      const scroll = document.getElementById('filter-scroll');
+      scroll.innerHTML = categories.map(c => `
+        <button class="filter-btn ${c === activeCategory ? 'active' : ''}"
+          onclick="setCategory('${c}')">${c}</button>
+      `).join('');
+    }
+
+    function renderQuotes() {
+      const list = document.getElementById('quotes-list');
+      const filtered = activeCategory === 'All'
+        ? WISDOMS
+        : WISDOMS.filter(w => w.category === activeCategory);
+
+      list.innerHTML = filtered.map(w => `
+        <div class="quote-item" style="background:${w.bg};">
+          <div class="cat-label">${w.category}</div>
+          <div class="q-text">"${w.quote}"</div>
+          <div class="q-footer">
+            <div class="q-author">— ${w.author}</div>
+            <div class="q-actions">
+              <span onclick="this.textContent = this.textContent==='🤍'?'❤️':'🤍'">🤍</span>
+              <span>🔗</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setCategory(cat) {
+      activeCategory = cat;
+      renderFilters();
+      renderQuotes();
+    }
+
+    renderFilters();
+    renderQuotes();
+  </script>
+  <script>
+  const filterScroll = document.getElementById('filter-scroll');
+  let isDown = false, startX, scrollLeft;
+
+  filterScroll.addEventListener('mousedown', (e) => {
+    isDown = true;
+    filterScroll.style.cursor = 'grabbing';
+    startX = e.pageX - filterScroll.offsetLeft;
+    scrollLeft = filterScroll.scrollLeft;
+  });
+
+  filterScroll.addEventListener('mouseleave', () => { isDown = false; filterScroll.style.cursor = 'default'; });
+  filterScroll.addEventListener('mouseup',    () => { isDown = false; filterScroll.style.cursor = 'default'; });
+  filterScroll.addEventListener('mousemove',  (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - filterScroll.offsetLeft;
+    filterScroll.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindy — Edit Profile</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .edit-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #F7F9FC;
+      min-height: 100dvh;
+      overflow-y: auto;
+    }
+
+    .edit-header {
+      background: #fff;
+      padding: 52px 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edit-header h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    .btn-save-header {
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      font-family: var(--font-head);
+    }
+
+    /* Avatar */
+    .avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 24px 20px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .avatar-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .avatar-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #5B8FA8, #4a7a93);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(91,143,168,0.3);
+    }
+
+    .avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-cam {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .avatar-hint {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Form */
+    .edit-form {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-family: var(--font-head);
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      gap: 10px;
+      transition: border-color .2s;
+    }
+
+    .input-wrap:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(91,143,168,0.12);
+    }
+
+    .input-wrap input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      font-family: var(--font-main);
+      color: var(--text-dark);
+      background: transparent;
+    }
+
+    .input-wrap input::placeholder { color: var(--text-light); }
+
+    .input-wrap input:disabled {
+      color: var(--text-light);
+      cursor: not-allowed;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    /* Success toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #2D3A4A;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all .3s ease;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="edit-screen">
+
+      <!-- Header -->
+      <div class="edit-header">
+        <button class="btn-icon" onclick="history.back()">‹</button>
+        <h1>Edit Profile</h1>
+        <button class="btn-save-header" onclick="saveChanges()">Save</button>
+      </div>
+
+      <!-- Avatar -->
+      <div class="avatar-section">
+        <div class="avatar-wrap">
+          <div class="avatar-circle">
+            <img src="assets/icons/pip-splash.svg" id="avatar-img" alt="Pip" />
+          </div>
+          <div class="avatar-cam">📷</div>
+        </div>
+        <div class="avatar-hint">Change Photo</div>
+      </div>
+
+      <!-- Form -->
+      <div class="edit-form">
+
+        <!-- Full Name -->
+        <div class="field-wrap">
+          <div class="field-label">Full Name</div>
+          <div class="input-wrap">
+            <input type="text" id="input-name" placeholder="Your full name" />
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div class="field-wrap">
+          <div class="field-label">Username</div>
+          <div class="input-wrap">
+            <input type="text" id="input-username" placeholder="@username" />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="field-wrap">
+          <div class="field-label">Email Address</div>
+          <div class="input-wrap">
+            <input type="email" id="input-email" placeholder="name@example.com" disabled
+              style="color:var(--text-light);" />
+          </div>
+          <div class="field-hint">Email tidak bisa diubah</div>
+        </div>
+
+        <!-- Bio -->
+        <div class="field-wrap">
+          <div class="field-label">Bio</div>
+          <div class="input-wrap" style="align-items:flex-start; padding-top:14px; padding-bottom:14px;">
+            <textarea id="input-bio" placeholder="Tell us a little about yourself..."
+              rows="3"
+              style="flex:1; border:none; outline:none; font-size:14px;
+              font-family:var(--font-main); color:var(--text-dark);
+              background:transparent; resize:none; line-height:1.5;"></textarea>
+          </div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="field-wrap">
+          <div class="field-label">Date of Birth</div>
+          <div class="input-wrap">
+            <input type="date" id="input-dob"
+              style="flex:1; border:none; outline:none; font-size:14px;
+              font-family:var(--font-main); color:var(--text-dark); background:transparent;" />
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <button class="btn btn-primary" onclick="saveChanges()" style="margin-top:8px;">
+          Save Changes
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">✅ Profile updated!</div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Load existing data
+    const user    = Storage.get('mindyUser', {});
+    const profile = getProfile();
+    const extra   = Storage.get('mindyProfileExtra', {});
+
+    document.getElementById('input-name').value     = profile.name     || '';
+    document.getElementById('input-username').value = extra.username   || '';
+    document.getElementById('input-email').value    = user.email       || '';
+    document.getElementById('input-bio').value      = extra.bio        || '';
+    document.getElementById('input-dob').value      = extra.dob        || '';
+
+    function saveChanges() {
+      const name     = document.getElementById('input-name').value.trim();
+      const username = document.getElementById('input-username').value.trim();
+      const bio      = document.getElementById('input-bio').value.trim();
+      const dob      = document.getElementById('input-dob').value;
+
+      if (!name) {
+        document.getElementById('input-name').focus();
+        return;
+      }
+
+      // Save profile
+      saveProfile({ name, joined: profile.joined });
+
+      // Save extra data
+      Storage.set('mindyProfileExtra', { username, bio, dob });
+
+      // Update user name
+      if (user) {
+        user.name = name;
+        Storage.set('mindyUser', user);
+      }
+
+      // Show toast
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => history.back(), 300);
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

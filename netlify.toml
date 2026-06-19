@@ -1,0 +1,8 @@
+# Netlify config untuk Mindy (static site)
+# Saat build, placeholder __GEMINI_API_KEY__ di js/chat.js diganti dengan
+# nilai Environment Variable GEMINI_API_KEY (di-set di dashboard Netlify).
+# Key asli TIDAK pernah masuk ke repo GitHub.
+
+[build]
+  publish = "."
+  command = "sed -i \"s|__GEMINI_API_KEY__|${GEMINI_API_KEY}|g\" js/chat.js"
